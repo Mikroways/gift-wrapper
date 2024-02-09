@@ -286,3 +286,34 @@ class MultipleChoice(HtmlQuestion):
 					f"full credit {colors.reset}{max_grade}")
 
 		return '\t' + '\n\t'.join(processed_answers)
+
+
+class TrueFalse(HtmlQuestion):
+	"""
+	Class implementing a true-false question.
+	"""
+
+	template_wrong_answers = string.Template(r"**<font color='$color'>$text</font>**")
+
+	def __init__(
+			self, name: str, statement: str, correct_answer: bool, images_settings: dict | None = None,
+			feedback: str | None = None, time: int | None = None, pre_transforms: list = [],
+			post_transforms: list = []):
+		"""
+		Initializer.
+
+		Parameters
+		----------
+		correct_answer : bool
+			Correct answer for the question.
+		"""
+
+		super().__init__(name, statement, images_settings, feedback, time, pre_transforms, post_transforms)
+
+		self.correct_answer = correct_answer
+
+	@property
+	def answer(self):
+		if not isinstance(self.correct_answer, bool):
+			raise Exception(f'Invalid "correct_answer" type for answer "{self.name}"')
+		return '\t' + gift.from_true_false_answer(self.correct_answer)

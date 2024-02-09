@@ -230,3 +230,21 @@ def from_perfect_answer(text: str) -> str:
 	"""
 
 	return f'={text}'
+
+def from_true_false_answer(value: bool) -> str:
+	"""
+	Generates GIFT-ready text from a true/false answer.
+
+	Parameters
+	----------
+	value : bool
+		The correct answer.
+
+	Returns
+	-------
+	out: str
+		GIFT-ready text.
+
+	"""
+
+	return f'{value}'.upper()

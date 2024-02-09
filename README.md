@@ -132,7 +132,7 @@ By default, `wrap.py` checks whether or not the formulas you wrote between `$`'s
 
 ## Current limitations
 
-- only *numerical* and *multiple-choice* questions are supported (notice that the GIFT format itself doesn't support every type of question available in Moodle)
+- only *numerical*, *multiple-choice* and *true-false* questions are supported (notice that the GIFT format itself doesn't support every type of question available in Moodle)
 
 - the latex support is very basic
 
