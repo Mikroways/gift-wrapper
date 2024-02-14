@@ -38,7 +38,8 @@ def main():
 	
 	wrap(
 		parameters=command_line_arguments.parameters_file,
-		questions_file=command_line_arguments.input_file, local_run=command_line_arguments.local,
+		questions_file=command_line_arguments.input_file,
+		local_run=command_line_arguments.local,
 		no_checks=command_line_arguments.no_checks,
 		embed_images=command_line_arguments.embed_images)
 
@@ -68,11 +69,14 @@ def wrap(parameters: str, questions_file: str, local_run: bool, no_checks: bool,
 		# so that we can assume it is a `pathlib.Path`
 		parameters = pathlib.Path(parameters)
 
+		# ...images are embedded
+		embed_images = True
+
+		within_the_course = True
+
 		# if a parameters file is NOT present...
 		if not parameters.exists():
 			
-			# ...images are embedded
-			embed_images = True
 
 			print(
 				f'"{parameters}"{colors.info} not found: embedding the images (`-e`). If you\'d like to host your images in a remote server you can download the sample parameters file{colors.reset} '
@@ -90,6 +94,18 @@ def wrap(parameters: str, questions_file: str, local_run: bool, no_checks: bool,
 			with parameters.open() as yaml_data:
 
 				parameters = yaml.load(yaml_data, Loader=yaml.FullLoader)
+
+			if parameters is not None:
+				try:
+					embed_images = parameters['images hosting']
+				except KeyError:
+					embed_images = True
+
+				# retrieve the parameter within_the_course from file
+				try:
+					within_the_course = parameters['within_the_course']
+				except KeyError:
+					within_the_course = True
 
 	# if a file name was *not* passed...
 	else:
@@ -200,7 +216,7 @@ def wrap(parameters: str, questions_file: str, local_run: bool, no_checks: bool,
 
 				for c in cat['name']:
 
-					f.write(gift.from_category(c))
+					f.write(gift.from_category(c, within_the_course))
 
 			# the names of *all* the questions
 			all_names = [q['name'] for q in cat['questions']]

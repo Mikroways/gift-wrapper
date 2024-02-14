@@ -94,7 +94,7 @@ def from_category(name: str, within_the_course: bool = True) -> str:
 
 	"""
 
-	return '$CATEGORY: ' + (r'$course$/' if within_the_course else '') + name + '\n\n'
+	return '$CATEGORY: ' + (r'$course$/' if within_the_course else '$system$/') + name + '\n\n'
 
 
 def from_feedback(text: str) -> str:
